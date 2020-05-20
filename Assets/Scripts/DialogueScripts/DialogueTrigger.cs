@@ -6,29 +6,18 @@ public class DialogueTrigger : MonoBehaviour
 {
     public Dialogue dialogue;
 
-    private void Start()
-    {
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            Invoke("TriggerDialogue", 0.5f);
-        }
-    }
-
     void OnTriggerStay2D(Collider2D c)
     {
-        if (c.gameObject.name == "Player" && Input.GetKeyDown(KeyCode.V))
+        //Quando dentro da Área do Trigger do NPC, ao apertar V abre o diálogo
+        if (c.gameObject.tag == "Player" && Input.GetKeyDown(KeyCode.V))
         {
             TriggerDialogue();
-            print("pipi");
         }
     }
 
     public void TriggerDialogue()
     {
+        //Inicia o diálogo
         FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
     }
 

@@ -14,11 +14,25 @@ public class DialogueManager : MonoBehaviour
 
     private Queue<string> sentences;
 
+    private GameObject player;
+    private PlayerScript playerScript;
+
     // Use this for initialization
     void Start()
     {
         sentences = new Queue<string>();
         aud = GetComponent<AudioSource>();
+        player = GameObject.Find("Player");
+        playerScript = player.GetComponent<PlayerScript>();
+        playerScript.playing = true;
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            DisplayNextSentence();
+        }
     }
 
     public void StartDialogue(Dialogue dialogue)
@@ -26,6 +40,7 @@ public class DialogueManager : MonoBehaviour
         animator.SetBool("isOpen", true);
         aud.enabled = true;
         aud.mute = false;
+        playerScript.playing = false;
         nameText.text = dialogue.name;
 
         //Limpa as sentenças anteriores para começar a próxima
@@ -69,6 +84,7 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         aud.mute = true;
+        playerScript.playing = true;
         animator.SetBool("isOpen", false);
     }
 
