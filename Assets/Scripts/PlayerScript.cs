@@ -9,6 +9,7 @@ public class PlayerScript : MonoBehaviour
 
     void Update()
     {
+        //Simulação de movimentação do Player
         if (playing)
         {
             transform.Translate(Input.GetAxis("Horizontal") * speed * Time.deltaTime, 0.0f, 0.0f);

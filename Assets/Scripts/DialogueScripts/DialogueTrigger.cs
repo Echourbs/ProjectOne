@@ -9,7 +9,7 @@ public class DialogueTrigger : MonoBehaviour
     void OnTriggerStay2D(Collider2D c)
     {
         //Quando dentro da Área do Trigger do NPC, ao apertar V abre o diálogo
-        if (c.gameObject.tag == "Player" && Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(KeyCode.V))
         {
             TriggerDialogue();
         }
