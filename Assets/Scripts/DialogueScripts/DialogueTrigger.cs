@@ -18,6 +18,15 @@ public class DialogueTrigger : MonoBehaviour
         }
     }
 
+    void OnTriggerStay2D(Collider2D c)
+    {
+        if (c.gameObject.name == "Player" && Input.GetKeyDown(KeyCode.V))
+        {
+            TriggerDialogue();
+            print("pipi");
+        }
+    }
+
     public void TriggerDialogue()
     {
         FindObjectOfType<DialogueManager>().StartDialogue(dialogue);

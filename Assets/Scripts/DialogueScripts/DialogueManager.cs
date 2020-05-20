@@ -25,6 +25,7 @@ public class DialogueManager : MonoBehaviour
     {
         animator.SetBool("isOpen", true);
         aud.enabled = true;
+        aud.mute = false;
         nameText.text = dialogue.name;
 
         //Limpa as sentenças anteriores para começar a próxima
@@ -60,14 +61,14 @@ public class DialogueManager : MonoBehaviour
         {
             dialogueText.text += letter;
             aud.Play();
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.08f);
         }
     }
 
     //Fim do Diálogo
     void EndDialogue()
     {
-        aud.enabled = false;
+        aud.mute = true;
         animator.SetBool("isOpen", false);
     }
 
