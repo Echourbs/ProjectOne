@@ -5,39 +5,52 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
-
     public Text nameText;
     public Text dialogueText;
+
+    public GameObject yesBt, noBt, skipBt, closeBt;
 
     public Animator animator;
     private AudioSource aud;
 
     private Queue<string> sentences;
 
+    private DialogueTrigger dt;
     private GameObject player;
     private PlayerScript playerScript;
+    private bool finalSentence;
 
     // Use this for initialization
     void Start()
     {
+        finalSentence = false;
         sentences = new Queue<string>();
         aud = GetComponent<AudioSource>();
         player = GameObject.Find("Player");
         playerScript = player.GetComponent<PlayerScript>();
+        dt = FindObjectOfType<DialogueTrigger>();
         playerScript.playing = true;
+        dt.quest = false;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (nameText.text.ToString() == "Rainha da Floresta")
         {
-            DisplayNextSentence();
+            dt.npcId = 1;
+        }
+        else{
+            dt.npcId = 0;
         }
     }
 
     public void StartDialogue(Dialogue dialogue)
     {
-        animator.SetBool("isOpen", true);
+        if (!finalSentence)
+        {
+            animator.SetBool("isOpen", true);
+        }
+
         aud.enabled = true;
         aud.mute = false;
         playerScript.playing = false;
@@ -51,18 +64,69 @@ public class DialogueManager : MonoBehaviour
             sentences.Enqueue(sentence);
         }
 
-        DisplayNextSentence();
+        if (!dt.quest)
+        {
+            Invoke("DisplayNextSentence", 0.3f);
+        }
+        else
+        {
+            Invoke("CloseSentence", 0.3f);
+        }
+    }
+
+    //Funções para botões
+    public void YesSir()
+    {
+        dt.YesAnswer(dt.npcId);
+    }
+    public void NoSir()
+    {
+        dt.NoAnswer(dt.npcId);
+    }
+    public void Trigger()
+    {
+        dt.TriggerDialogue();
     }
 
     //Próxima Sentença
     public void DisplayNextSentence()
     {
-        if (sentences.Count == 0)
+        print(dt.npcId);
+        if (sentences.Count == 2)
+        {
+            skipBt.SetActive(false);
+            noBt.SetActive(true);
+            yesBt.SetActive(true);
+        }
+
+        if(sentences.Count == 1)
+        {
+            finalSentence = true;
+            skipBt.SetActive(true);
+            noBt.SetActive(false);
+            yesBt.SetActive(false);
+        }
+       
+        string sentence = sentences.Dequeue();
+        StopAllCoroutines();
+        StartCoroutine(TypeSentence(sentence));
+    }
+
+    //Proxima sentença quando ja foi respondido
+    public void CloseSentence()
+    {
+        if(sentences.Count == 4)
+        {
+            closeBt.SetActive(true);
+            noBt.SetActive(false);
+            yesBt.SetActive(false);
+        }
+        if (sentences.Count == 3)
         {
             EndDialogue();
             return;
         }
-
+       
         string sentence = sentences.Dequeue();
         StopAllCoroutines();
         StartCoroutine(TypeSentence(sentence));
@@ -81,11 +145,14 @@ public class DialogueManager : MonoBehaviour
     }
 
     //Fim do Diálogo
-    void EndDialogue()
+    public void EndDialogue()
     {
         aud.mute = true;
         playerScript.playing = true;
         animator.SetBool("isOpen", false);
+        dt.quest = true;
+        closeBt.SetActive(false);
+        skipBt.SetActive(true);
     }
 
 }
