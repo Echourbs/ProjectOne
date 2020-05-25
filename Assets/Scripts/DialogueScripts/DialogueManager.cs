@@ -22,6 +22,8 @@ public class DialogueManager : MonoBehaviour
     private bool finalSentence;
     private bool question;
     public bool quest;
+    public bool questAppearence;
+    public int questId;
 
     // Use this for initialization
     void Start()
@@ -34,12 +36,12 @@ public class DialogueManager : MonoBehaviour
         dt = FindObjectOfType<DialogueTrigger>();
         playerScript.playing = true;
         quest = false;
+        questAppearence = false;
         question = false;
     }
 
     void Update()
     {
-        print("Quest: " + quest);
         //Define qual o NPC está falando, para a resposta seja adequada
         if (nameText.text.ToString() == "Rainha da Floresta")
         {
@@ -90,26 +92,28 @@ public class DialogueManager : MonoBehaviour
     {
         if(dt.npcId == 0)
         {
-            print("Seu inimigo agora é a Rainha da Floresta, enfrente-a e conquiste o prêmio com a Rainha do Mal");
+            questId = 1;
         }
         if (dt.npcId == 1)
         {
-            print("Seu inimigo agora é a Rainha do Mal, enfrente-a e conquiste o prêmio com a Rainha da Floresta");
+            questId = 2;
         }
         quest = true;
+        questAppearence = true;
         dt.YesAnswer(dt.npcId);
     }
     public void NoSir()
     {
-        if (dt.npcId == 1)
-        {
-            print("Seu inimigo agora é a Rainha da Floresta, enfrente-a e conquiste o prêmio com a Rainha do Mal");
-        }
         if (dt.npcId == 0)
         {
-            print("Seu inimigo agora é a Rainha do Mal, enfrente-a e conquiste o prêmio com a Rainha da Floresta");
+            questId = 2;           
+        }
+        if (dt.npcId == 1)
+        {
+            questId = 1;
         }
         quest = true;
+        questAppearence = true;
         dt.NoAnswer(dt.npcId);
     }
     public void Trigger()

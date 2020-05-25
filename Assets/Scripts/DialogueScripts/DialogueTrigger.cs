@@ -66,7 +66,6 @@ public class DialogueTrigger : MonoBehaviour
             dialogue.name = "Rainha da Floresta";
             dialogue.sentences[0] = "Se você se junta ao inimigo, nao hesitarei em te matar";
         }
-
     }
 
     void Update()
