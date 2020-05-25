@@ -23,7 +23,7 @@ public class DialogueTrigger : MonoBehaviour
             dialogue.name = "Rainha do Mal";
             dialogue.sentences[0] = "Olá, sou a rainha do mal";
             dialogue.sentences[1] = "Seja bem vindo ao meu mundo";
-            dialogue.sentences[2] = "Me ajude a matar a rainha do mal e terás tudo o que quiser";
+            dialogue.sentences[2] = "Me ajude a matar a rainha da floresta e terás tudo o que quiser";
         }
 
         if (npcId == 1)
