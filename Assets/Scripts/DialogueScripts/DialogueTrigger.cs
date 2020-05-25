@@ -10,10 +10,13 @@ public class DialogueTrigger : MonoBehaviour
     public GameObject canvas;
 
     public int npcId;
+    DialogueManager dm;
 
 
     void Start()
     {
+        dm = FindObjectOfType<DialogueManager>();
+
         //Opções de Diálogo
         if (npcId == 0)
         {
@@ -69,7 +72,7 @@ public class DialogueTrigger : MonoBehaviour
     void Update()
     {
         //Se estiver no raio do trigger, aparece o canvas
-        if (onTrigger)
+        if (onTrigger && !dm.quest)
         {
             canvas.SetActive(true);
         }
@@ -79,7 +82,7 @@ public class DialogueTrigger : MonoBehaviour
         }
 
         //Se o canvas estiver ativo e o usuario aperta o botão, aparece o dialogo
-        if(onTrigger && Input.GetKeyDown(KeyCode.V))
+        if(onTrigger && Input.GetKeyDown(KeyCode.V) && !dm.quest)
         {
             TriggerDialogue();
         }

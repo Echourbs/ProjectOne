@@ -18,7 +18,10 @@ public class DialogueManager : MonoBehaviour
     private DialogueTrigger dt;
     private GameObject player;
     private PlayerScript playerScript;
+
     private bool finalSentence;
+    private bool question;
+    public bool quest;
 
     // Use this for initialization
     void Start()
@@ -30,17 +33,25 @@ public class DialogueManager : MonoBehaviour
         playerScript = player.GetComponent<PlayerScript>();
         dt = FindObjectOfType<DialogueTrigger>();
         playerScript.playing = true;
-        dt.quest = false;
+        quest = false;
+        question = false;
     }
 
     void Update()
     {
+        print("Quest: " + quest);
+        //Define qual o NPC está falando, para a resposta seja adequada
         if (nameText.text.ToString() == "Rainha da Floresta")
         {
             dt.npcId = 1;
         }
         else{
             dt.npcId = 0;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && !question)
+        {
+            DisplayNextSentence();
         }
     }
 
@@ -77,10 +88,28 @@ public class DialogueManager : MonoBehaviour
     //Funções para botões
     public void YesSir()
     {
+        if(dt.npcId == 0)
+        {
+            print("Seu inimigo agora é a Rainha da Floresta, enfrente-a e conquiste o prêmio com a Rainha do Mal");
+        }
+        if (dt.npcId == 1)
+        {
+            print("Seu inimigo agora é a Rainha do Mal, enfrente-a e conquiste o prêmio com a Rainha da Floresta");
+        }
+        quest = true;
         dt.YesAnswer(dt.npcId);
     }
     public void NoSir()
     {
+        if (dt.npcId == 1)
+        {
+            print("Seu inimigo agora é a Rainha da Floresta, enfrente-a e conquiste o prêmio com a Rainha do Mal");
+        }
+        if (dt.npcId == 0)
+        {
+            print("Seu inimigo agora é a Rainha do Mal, enfrente-a e conquiste o prêmio com a Rainha da Floresta");
+        }
+        quest = true;
         dt.NoAnswer(dt.npcId);
     }
     public void Trigger()
@@ -91,10 +120,11 @@ public class DialogueManager : MonoBehaviour
     //Próxima Sentença
     public void DisplayNextSentence()
     {
-        print(dt.npcId);
         if (sentences.Count == 2)
         {
+            question = true;
             skipBt.SetActive(false);
+            closeBt.SetActive(true);
             noBt.SetActive(true);
             yesBt.SetActive(true);
         }
@@ -102,7 +132,7 @@ public class DialogueManager : MonoBehaviour
         if(sentences.Count == 1)
         {
             finalSentence = true;
-            skipBt.SetActive(true);
+            closeBt.SetActive(true);
             noBt.SetActive(false);
             yesBt.SetActive(false);
         }
@@ -147,10 +177,13 @@ public class DialogueManager : MonoBehaviour
     //Fim do Diálogo
     public void EndDialogue()
     {
+        question = false;
         aud.mute = true;
         playerScript.playing = true;
         animator.SetBool("isOpen", false);
-        dt.quest = true;
+
+        noBt.SetActive(false);
+        yesBt.SetActive(false);
         closeBt.SetActive(false);
         skipBt.SetActive(true);
     }
