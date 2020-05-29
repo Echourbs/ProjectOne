@@ -34,7 +34,7 @@ public class DialogueManager : MonoBehaviour
         player = GameObject.Find("Player");
         playerScript = player.GetComponent<PlayerScript>();
         dt = FindObjectOfType<DialogueTrigger>();
-        playerScript.playing = true;
+        //playerScript.playing = true;
         quest = false;
         questAppearence = false;
         question = false;
@@ -43,7 +43,7 @@ public class DialogueManager : MonoBehaviour
     void Update()
     {
         //Define qual o NPC está falando, para a resposta seja adequada
-        if (nameText.text.ToString() == "Rainha da Floresta")
+        if (nameText.text.ToString() == "Rei da Floresta")
         {
             dt.npcId = 1;
         }
@@ -66,7 +66,7 @@ public class DialogueManager : MonoBehaviour
 
         aud.enabled = true;
         aud.mute = false;
-        playerScript.playing = false;
+        //playerScript.playing = false;
         nameText.text = dialogue.name;
 
         //Limpa as sentenças anteriores para começar a próxima
@@ -183,7 +183,7 @@ public class DialogueManager : MonoBehaviour
     {
         question = false;
         aud.mute = true;
-        playerScript.playing = true;
+        //playerScript.playing = true;
         animator.SetBool("isOpen", false);
 
         noBt.SetActive(false);

@@ -28,8 +28,8 @@ public class DialogueTrigger : MonoBehaviour
 
         if (npcId == 1)
         {
-            dialogue.name = "Rainha da Floresta";
-            dialogue.sentences[0] = "Olá, sou a rainha da floresta";
+            dialogue.name = "Rei da Floresta";
+            dialogue.sentences[0] = "Olá, sou o rei da floresta";
             dialogue.sentences[1] = "Fico feliz com a sua chegada";
             dialogue.sentences[2] = "Me ajude a buscar a paz pelo reino, por favor, bravo guerreiro";
         }
@@ -47,7 +47,7 @@ public class DialogueTrigger : MonoBehaviour
 
         if (i == 1)
         {
-            dialogue.name = "Rainha da Floresta";
+            dialogue.name = "Rei da Floresta";
             dialogue.sentences[0] = "Muito obrigada, guerreiro!";
         }
     }
@@ -63,7 +63,7 @@ public class DialogueTrigger : MonoBehaviour
         }
         if (i == 1)
         {
-            dialogue.name = "Rainha da Floresta";
+            dialogue.name = "Rei da Floresta";
             dialogue.sentences[0] = "Se você se junta ao inimigo, nao hesitarei em te matar";
         }
     }
